@@ -13,7 +13,7 @@
 		<ItemGroup>
 			<DelFiles Include="$(BaseDeploymentDirectory)**\*"></DelFiles>
 		</ItemGroup>
-		<Delete Files="@(DelFiles)" TreatErrorsAsWarnings="true" />
+		<Delete Files="@(DelFiles)" TreatErrorsAsWarnings="false" />
 		<Message Text="Release Directory Now Prepared" />	
 	</Target>
 	
