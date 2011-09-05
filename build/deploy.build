@@ -5,16 +5,7 @@
 		<BaseDeploymentDirectory>c:\Websites\Webstore.Paulstack.co.uk\</BaseDeploymentDirectory>
 	</PropertyGroup>
 	
-	<Target Name="default" DependsOnTargets="ReleaseDirectoryCleanUp;Release">
-	</Target>
-
-	<Target Name="ReleaseDirectoryCleanUp">
-		<Message Text="Preparation of Release Directory - including promotion folders" />
-		<ItemGroup>
-			<DelFiles Include="$(BaseDeploymentDirectory)**\*"></DelFiles>
-		</ItemGroup>
-		<Delete Files="@(DelFiles)" TreatErrorsAsWarnings="false" />
-		<Message Text="Release Directory Now Prepared" />	
+	<Target Name="default" DependsOnTargets="Release">
 	</Target>
 	
 	<Target Name="Release">
