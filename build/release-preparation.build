@@ -10,9 +10,10 @@
 	 <BuildFiles Include="$(BaseCodeFolder)\Build\**\*" />
 	 <PdbsToDelete Include="$(BaseReleaseFolder)\$(Configuration)\bin\*.pdb" />
 	 <FilesToDelete Include="$(BaseReleaseFolder)\$(Configuration)\**\*"/>
+	 <SqlCeFile Include="$(BaseCodeFolder)\lib\System.Data.SqlServerCe.dll"/>
 </ItemGroup>
 
-<Target Name="default" DependsOnTargets="ReleaseDirectoryPreparation;Build;BuildScriptCopy;CleanUpAfterPublish">
+<Target Name="default" DependsOnTargets="ReleaseDirectoryPreparation;Build;BuildScriptCopy;DeploySqlCEDll;CleanUpAfterPublish">
 </Target>
 
 <Target Name="ReleaseDirectoryPreparation">
@@ -45,6 +46,12 @@
 	<Copy 
 		SourceFiles="@(BuildFiles)" 
 		DestinationFolder="$(BaseReleaseFolder)BuildScript" />
+</Target>
+
+<Target Name="DeploySqlCEDll">
+<Copy 
+		SourceFiles="@(SqlCeFile)" 
+		DestinationFolder="$(BaseReleaseFolder)bin" />
 </Target>
 
 <Target Name="CleanUpAfterPublish">
