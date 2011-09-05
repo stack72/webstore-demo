@@ -1,0 +1,56 @@
+<Project DefaultTargets="default" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+<PropertyGroup>
+	<Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+	<BaseCodeFolder>C:\Builds\Webstore-Demo\</BaseCodeFolder>
+	<BaseReleaseFolder>C:\Release\Webstore\</BaseReleaseFolder>
+</PropertyGroup>
+
+<ItemGroup>
+	 <BuildFiles Include="$(BaseCodeFolder)\Build\*.build" />
+	 <PdbsToDelete Include="$(BaseReleaseFolder)\$(Configuration)\bin\*.pdb" />
+	 <FilesToDelete Include="$(BaseReleaseFolder)\$(Configuration)\**\*"/>
+</ItemGroup>
+
+<Target Name="default" DependsOnTargets="ReleaseDirectoryPreparation;Build;BuildScriptCopy;CleanUpAfterPublish">
+</Target>
+
+<Target Name="ReleaseDirectoryPreparation">
+	<Message Text="Preparation of Release Directory" />
+	<ItemGroup>
+		<DelFiles Include="$(FilesToDelete)"></DelFiles>
+	</ItemGroup>
+	<Delete Files="@(DelFiles)" />
+	<Message Text="Release Directory Now Prepared" />	
+</Target>
+
+<Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v10.0\Web\Microsoft.Web.Publishing.targets" />
+<Target Name="Build" DependsOnTargets="BuildPackage;CopyOutput" />
+<Target Name="BuildPackage">
+	<Message Text="Application Building Now" />
+	<MSBuild Projects="..\MvcMusicStore\MvcMusicStore.csproj" Targets="rebuild"
+		 Properties="Configuration=$(Configuration);DeployOnBuild=true;DeployTarget=Package" 
+		 ContinueOnError="false" />
+</Target>
+<Target Name="CopyOutput">
+	<Message Text="Moving The Built Site To The Release Folder" />
+	<ItemGroup>
+		<PackagedFiles Include="$(BaseCodeFolder)\MvcMusicStore\obj\$(Configuration)\Package\PackageTmp\**\*.*"/>
+	</ItemGroup>
+	<Copy SourceFiles="@(PackagedFiles)" DestinationFiles="@(PackagedFiles->'$(BaseReleaseFolder)$(Configuration)\%(RecursiveDir)%(Filename)%(Extension)')"/>
+</Target>
+
+<Target Name="BuildScriptCopy">
+	<Message Text="Copying Build Script Folder" />
+	<Copy 
+		SourceFiles="@(BuildFiles)" 
+		DestinationFolder="$(BaseReleaseFolder)BuildScript" />
+</Target>
+
+<Target Name="CleanUpAfterPublish">
+	<Message Text="Cleaning Up PDB files from bin folder" />
+	<Delete Files="@(PdbsToDelete)" />
+	<Message Text="Finished Cleaning Up" />
+</Target>
+
+</Project>
