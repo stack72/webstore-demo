@@ -29,7 +29,7 @@
 <Target Name="BuildPackage">
 	<Message Text="Application Building Now" />
 	<MSBuild Projects="..\MvcMusicStore\MvcMusicStore.csproj" Targets="rebuild"
-		 Properties="Configuration=$(Configuration);DeployOnBuild=true;DeployTarget=Package;AutoParameterizationWebConfigConnectionStringsCore=False"" 
+		 Properties="Configuration=$(Configuration);DeployOnBuild=true;DeployTarget=Package;AutoParameterizationWebConfigConnectionStrings=False" 
 		 ContinueOnError="false" />
 </Target>
 <Target Name="CopyOutput">
