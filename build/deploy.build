@@ -1,0 +1,29 @@
+<Project DefaultTargets="default" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<PropertyGroup>
+		<Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+		<BaseCheckoutDirectory>C:\Release\Webstore\</BaseCheckoutDirectory>
+		<BaseDeploymentDirectory>c:\Websites\Webstore.Paulstack.co.uk\</BaseDeploymentDirectory>
+	</PropertyGroup>
+	
+	<Target Name="default" DependsOnTargets="ReleaseDirectoryCleanUp;Release">
+	</Target>
+
+	<Target Name="ReleaseDirectoryCleanUp">
+		<Message Text="Preparation of Release Directory - including promotion folders" />
+		<ItemGroup>
+			<DelFiles Include="$(BaseDeploymentDirectory)**\*""></DelFiles>
+		</ItemGroup>
+		<Delete Files="@(DelFiles)" TreatErrorsAsWarnings="true" />
+		<Message Text="Release Directory Now Prepared" />	
+	</Target>
+	
+	<Target Name="Release">
+		<Message Text="Starting Copy Of Files From checkout directory to live - including promotion folders" />
+		<ItemGroup>
+			<PackagedFiles Include="$(BaseCheckoutDirectory)$(Configuration)\**\*.*" Exclude="" />
+		</ItemGroup>
+		<Copy   SourceFiles="@(PackagedFiles)" 
+				DestinationFiles="@(PackagedFiles->'$(BaseDeploymentDirectory)%(RecursiveDir)%(Filename)%(Extension)')"/>
+	</Target>
+	
+</Project>
