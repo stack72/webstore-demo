@@ -51,7 +51,7 @@
 <Target Name="DeploySqlCEDll">
 <Copy 
 		SourceFiles="@(SqlCeFile)" 
-		DestinationFolder="$(BaseReleaseFolder)bin" />
+		DestinationFolder="$(BaseReleaseFolder)$(Configuration)\bin" />
 </Target>
 
 <Target Name="CleanUpAfterPublish">
