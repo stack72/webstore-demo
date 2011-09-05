@@ -12,7 +12,7 @@
 	 <FilesToDelete Include="$(BaseReleaseFolder)\$(Configuration)\**\*"/>
 </ItemGroup>
 
-<Target Name="default" DependsOnTargets="ReleaseDirectoryPreparation;Build;BuildScriptCopy;DeploySqlCEDll;CleanUpAfterPublish">
+<Target Name="default" DependsOnTargets="ReleaseDirectoryPreparation;Build;BuildScriptCopy;CleanUpAfterPublish">
 </Target>
 
 <Target Name="ReleaseDirectoryPreparation">
